@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
 // Reset
-body{
+body {
   margin: 0rem;
   padding: 0rem;
   box-sizing: border-box;
@@ -9,16 +9,220 @@ body{
 }
 
 // Colors
-$red: hsl(0, 78%, 62%);
-$cyan: hsl(180, 62%, 55%);
-$orange: hsl(34, 97%, 64%);
-$blue: hsl(212, 86%, 64%);
+$border: (
+  cyan: hsl(180, 62%, 55%),
+  red: hsl(0, 78%, 62%),
+  orange: hsl(34, 97%, 64%),
+  blue: hsl(212, 86%, 64%)
+);
+
 $very-dark-blue: hsl(234, 12%, 34%);
 $grayish-blue: hsl(229, 6%, 66%);
 $very-light-gray: hsl(0, 0%, 98%);
 
 // Mixins
+@mixin structure($wd, $ht, $ds, $bg) {
+  width: $wd;
+  height: $ht;
+  display: $ds;
+  background-color: $bg;
+}
 
+@mixin alignament($jc, $ai, $gap) {
+  justify-content: $jc;
+  align-items: $ai;
+  gap: $gap;
+}
+
+@mixin texts($ta, $fw, $fs, $col, $mar, $pad) {
+  text-align: $ta;
+  font-weight: $fw;
+  font-size: $fs;
+  color: $col;
+  margin: $mar;
+  padding: $pad;
+}
 
 // Styles
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $very-light-gray;
 
+  .container__feature {
+    width: 80%;
+    height: 100%;
+
+    h1 {
+      @include texts(center, 200, 2rem, $very-dark-blue, 0rem, 0rem);
+      animation: fadeInUp .8s;
+    }
+
+    .feature--bold {
+      @include texts(center, 600, 2rem, $very-dark-blue, 0rem 0rem 1.25rem, 0rem);
+      animation: fadeInUp .8s;
+    }
+
+    .feature--text {
+      @include texts(center, 200, 1rem, #000000, 0rem auto, 0rem);
+      width: 50%;
+      animation: fadeInUp .8s;
+    }
+
+    .feature__content {
+      @include structure(100%, 100%, flex, transparent);
+      @include alignament(center, center, 1.25rem);
+      margin-top: 2.5rem;
+
+      @each $name,
+      $color in $border {
+        .border--#{$name} {
+          border-top: .25rem solid $color;
+        }
+      }
+
+      .content--card {
+        min-width: 19.375rem;
+        max-width: 19.375rem;
+        height: 12.5rem;
+        padding: 1.5625rem 1.875rem;
+        border-radius: .5rem;
+        box-shadow: 0rem .625rem .625rem rgba(0, 0, 0, .3);
+
+        .card--title {
+          @include texts(left, 600, 1.25rem, $very-dark-blue, 0rem, 0rem);
+        }
+
+        .card--text {
+          @include texts(left, 200, .9375rem, $grayish-blue, .5rem 0rem 0rem, 0rem);
+        }
+
+        img {
+          float: right;
+          margin: 1.5rem 0rem 0rem 0rem;
+        }
+      }
+
+      .animation--lt { animation: fadeInLeft .8s; }
+      .animation--rt { animation: fadeInRight .8s; }
+
+      .content__card--column {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        .animation--tp { animation: fadeInUp .8s; }
+        .animation--bt { animation: fadeInBottom .8s }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .container {
+    padding: 2.5rem 0rem;
+
+    .container__feature {
+      .feature--text {
+        width: 70%;
+      }
+
+      .feature__content {
+        display: flex;
+        flex-wrap: wrap;
+
+        .content--card {
+          width: 25rem;
+        }
+        .animation--lt { animation: fadeInUp .8s; }
+        .animation--rt { animation: fadeInBottom .8s }
+
+        .content__card--column {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          .animation--tp { animation: fadeInLeft .8s; }
+          .animation--bt { animation: fadeInRight .8s }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    .container__feature {
+      width: 100%;
+      padding: 0rem 1.25rem;
+
+      .feature--bold,
+      h1 {
+        font-size: 1.65rem;
+      }
+
+      .feature--text {
+        width: 20.625rem;
+        margin: 0rem auto;
+      }
+
+      .feature__content {
+        .content--card {
+          min-width: 0rem;
+          max-width: 16.25rem;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-5rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-5rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(5rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(5rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
